@@ -13,9 +13,9 @@ public class CLI {
     private final Nutzerverwaltung nutzerverwaltung;
     private final Ausstattungsverwaltung ausstattungsverwaltung;
 
-    private boolean isLoggedIn;
-    private boolean closeRequested;
-    private String currentUser;
+    private boolean istEingeloggt;
+    private boolean sollBeenden;
+    private String aktuellerNutzer;
 
     private CLI() {
         this.scanner = new Scanner(System.in);
@@ -31,8 +31,8 @@ public class CLI {
     }
 
     private void menueSchleifeStarten() {
-        while (!closeRequested) {
-            if (!isLoggedIn) {
+        while (!sollBeenden) {
+            if (!istEingeloggt) {
                 loginAnzeigen();
             }
             menueAnzeigen();
@@ -42,11 +42,11 @@ public class CLI {
     private void loginAnzeigen() {
         System.out.println("Welcome to Besprechungsverwaltung");
         System.out.println("Bitte melden sie sich an");
-        currentUser = scanner.nextLine();
+        aktuellerNutzer = scanner.nextLine();
         String pw = lesePasswort();
-        nutzerverwaltung.loginPruefen(currentUser, pw);
-        isLoggedIn = true;
-        System.out.println("Willkommen " + currentUser);
+        nutzerverwaltung.loginPruefen(aktuellerNutzer, pw);
+        istEingeloggt = true;
+        System.out.println("Willkommen " + aktuellerNutzer);
     }
 
     private String lesePasswort() {
@@ -73,18 +73,31 @@ public class CLI {
                 nutzerKontoAnlegen();
                 break;
             case "3":
+                besprechungAnlegen();
                 break;
             case "4":
-                currentUser = "";
-                isLoggedIn = false;
+                ausloggen();
                 break;
             case "x":
-                closeRequested = true;
-                System.out.println("Auf wiedersehen!");
+                beenden();
                 break;
             default:
                 System.out.println("Unbekannter Menüpunkt");
         }
+    }
+
+    private void besprechungAnlegen() {
+
+    }
+
+    private void beenden() {
+        sollBeenden = true;
+        System.out.println("Auf wiedersehen!");
+    }
+
+    private void ausloggen() {
+        aktuellerNutzer = "";
+        istEingeloggt = false;
     }
 
     private void nutzerKontoAnlegen() {
