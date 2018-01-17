@@ -67,7 +67,7 @@ public class CLI {
 
         switch (choice) {
             case "1":
-                System.out.println(raumverwaltung.getRaumliste());
+                raumlisteAnzeigen();
                 break;
             case "2":
                 nutzerKontoAnlegen();
@@ -84,6 +84,10 @@ public class CLI {
             default:
                 System.out.println("Unbekannter Menüpunkt");
         }
+    }
+
+    private void raumlisteAnzeigen() {
+        System.out.println(raumverwaltung.getRaumliste());
     }
 
     private void besprechungAnlegen() {
