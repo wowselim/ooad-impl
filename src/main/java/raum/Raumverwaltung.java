@@ -4,8 +4,10 @@ import ausstattung.Ausstattungsgegenstand;
 import ausstattung.Ausstattungsverwaltung;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,9 +18,12 @@ import java.util.List;
 public class Raumverwaltung {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private List<Raum> raumListe;
+    private Type type;
 
     public Raumverwaltung() {
         this.raumListe = new ArrayList<>();
+        this.type = new TypeToken<List<Raum>>() {
+        }.getType();
         this.raumListe.addAll(leseRaumliste());
     }
 
@@ -32,7 +37,7 @@ public class Raumverwaltung {
 
     private List<Raum> leseRaumliste() {
         try {
-            return GSON.<List<Raum>>fromJson(new String(Files.readAllBytes(Paths.get("rooms.list"))), raumListe.getClass());
+            return GSON.fromJson(new String(Files.readAllBytes(Paths.get("rooms.list"))), type);
         } catch (IOException e) {
             System.err.println("Es konnten keine Räume geladen werden.");
         }
@@ -41,7 +46,7 @@ public class Raumverwaltung {
 
     private void speichereRaumliste() {
         try {
-            Files.write(Paths.get("rooms.list"), GSON.toJson(raumListe).getBytes());
+            Files.write(Paths.get("rooms.list"), GSON.toJson(raumListe, type).getBytes());
         } catch (IOException e) {
             System.err.println("Die Raumliste konnte nicht gespeichert werden.");
         }

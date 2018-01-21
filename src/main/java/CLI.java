@@ -8,8 +8,10 @@ import raum.Raumverwaltung;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class CLI {
     private final Scanner scanner;
@@ -67,7 +69,8 @@ public class CLI {
         System.out.println("[1] Räume anzeigen");
         System.out.println("[2] Nutzerkonto anlegen");
         System.out.println("[3] Besprechung erstellen");
-        System.out.println("[4] Abmelden");
+        System.out.println("[4] Besprechungen anzeigen");
+        System.out.println("[5] Abmelden");
         System.out.println("[x] Beenden");
 
         choice = scanner.nextLine();
@@ -83,6 +86,9 @@ public class CLI {
                 besprechungAnlegen();
                 break;
             case "4":
+                besprechungenAnzeigen();
+                break;
+            case "5":
                 ausloggen();
                 break;
             case "x":
@@ -91,6 +97,10 @@ public class CLI {
             default:
                 System.out.println("Unbekannter Menüpunkt");
         }
+    }
+
+    private void besprechungenAnzeigen() {
+        System.out.println(besprechungsverwaltung.getBesprechungliste());
     }
 
     private void raumlisteAnzeigen() {
@@ -105,11 +115,14 @@ public class CLI {
         System.out.println(nutzerverwaltung.getNutzerliste());
         System.out.print("Laden Sie andere Nutzer ein: ");
         String[] benutzerNamen = scanner.nextLine().split(",");
-        List<Nutzer> eingeladeneNutzer = new ArrayList<>();
+        Set<Nutzer> eingeladeneNutzer = new HashSet<>();
+        eingeladeneNutzer.add(aktuellerNutzer);
         for(String benutzerName : benutzerNamen) {
             eingeladeneNutzer.add(nutzerverwaltung.getNutzerByName(benutzerName));
         }
-        Besprechung besprechung = Besprechungsverwaltung.besprechungAnlegen(raum, eingeladeneNutzer);
+        Besprechung besprechung = besprechungsverwaltung.besprechungAnlegen(raum, eingeladeneNutzer);
+        System.out.println("Besprechung erfolgreich angelegt");
+        System.out.println(besprechung);
     }
 
     private void beenden() {

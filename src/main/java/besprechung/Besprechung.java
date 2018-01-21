@@ -4,12 +4,13 @@ import nutzer.Nutzer;
 import raum.Raum;
 
 import java.util.List;
+import java.util.Set;
 
 public class Besprechung {
     private final Raum raum;
-    private final List<Nutzer> eingeladeneNutzer;
+    private final Set<Nutzer> eingeladeneNutzer;
 
-    Besprechung(Raum raum, List<Nutzer> eingeladeneNutzer) {
+    Besprechung(Raum raum, Set<Nutzer> eingeladeneNutzer) {
         this.raum = raum;
         this.eingeladeneNutzer = eingeladeneNutzer;
     }
@@ -18,7 +19,7 @@ public class Besprechung {
         return raum;
     }
 
-    public List<Nutzer> getEingeladeneNutzer() {
+    public Set<Nutzer> getEingeladeneNutzer() {
         return eingeladeneNutzer;
     }
 

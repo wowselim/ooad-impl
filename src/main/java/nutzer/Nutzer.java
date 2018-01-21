@@ -21,7 +21,6 @@ public class Nutzer {
     public String toString() {
         return "Nutzer{" +
                 "name='" + name + '\'' +
-                ", passwort='" + passwort + '\'' +
                 '}';
     }
 }
