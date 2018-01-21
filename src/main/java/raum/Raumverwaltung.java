@@ -60,4 +60,11 @@ public class Raumverwaltung {
 
         raumverwaltung.speichereRaumliste();
     }
+
+    public Raum getRaumByName(String raumName) {
+        return raumListe.stream()
+                .filter(raum -> raum.getName().equals(raumName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unbekannter Raumname."));
+    }
 }

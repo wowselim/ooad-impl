@@ -1,9 +1,14 @@
 import ausstattung.Ausstattungsverwaltung;
+import besprechung.Besprechung;
 import besprechung.Besprechungsverwaltung;
+import nutzer.Nutzer;
 import nutzer.Nutzerverwaltung;
+import raum.Raum;
 import raum.Raumverwaltung;
 
 import java.io.Console;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CLI {
@@ -15,7 +20,7 @@ public class CLI {
 
     private boolean istEingeloggt;
     private boolean sollBeenden;
-    private String aktuellerNutzer;
+    private Nutzer aktuellerNutzer;
 
     private CLI() {
         this.scanner = new Scanner(System.in);
@@ -42,11 +47,13 @@ public class CLI {
     private void loginAnzeigen() {
         System.out.println("Welcome to Besprechungsverwaltung");
         System.out.println("Bitte melden sie sich an");
-        aktuellerNutzer = scanner.nextLine();
+        System.out.print("Benutzername: ");
+        String benutzername = scanner.nextLine();
+        System.out.print("Passwort: ");
         String pw = lesePasswort();
-        nutzerverwaltung.loginPruefen(aktuellerNutzer, pw);
+        this.aktuellerNutzer = nutzerverwaltung.loginPruefen(benutzername, pw);
         istEingeloggt = true;
-        System.out.println("Willkommen " + aktuellerNutzer);
+        System.out.println("Willkommen " + aktuellerNutzer.getName());
     }
 
     private String lesePasswort() {
@@ -91,7 +98,18 @@ public class CLI {
     }
 
     private void besprechungAnlegen() {
-
+        System.out.println("Aktuelle Raumliste: " + raumverwaltung.getRaumliste());
+        System.out.print("Wählen Sie einen Raum für Ihre Besprechung: ");
+        String raumName = scanner.nextLine();
+        Raum raum = raumverwaltung.getRaumByName(raumName);
+        System.out.println(nutzerverwaltung.getNutzerliste());
+        System.out.print("Laden Sie andere Nutzer ein: ");
+        String[] benutzerNamen = scanner.nextLine().split(",");
+        List<Nutzer> eingeladeneNutzer = new ArrayList<>();
+        for(String benutzerName : benutzerNamen) {
+            eingeladeneNutzer.add(nutzerverwaltung.getNutzerByName(benutzerName));
+        }
+        Besprechung besprechung = Besprechungsverwaltung.besprechungAnlegen(raum, eingeladeneNutzer);
     }
 
     private void beenden() {
@@ -100,7 +118,7 @@ public class CLI {
     }
 
     private void ausloggen() {
-        aktuellerNutzer = "";
+        aktuellerNutzer = null;
         istEingeloggt = false;
     }
 
