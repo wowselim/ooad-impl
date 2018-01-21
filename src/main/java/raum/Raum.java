@@ -32,4 +32,12 @@ public class Raum {
     public void setAusstattungsgegenstaende(List<Ausstattungsgegenstand> ausstattungsgegenstaende) {
         this.ausstattungsgegenstaende = ausstattungsgegenstaende;
     }
+
+    @Override
+    public String toString() {
+        return "Raum{" +
+                "name='" + name + '\'' +
+                ", ausstattungsgegenstaende=" + ausstattungsgegenstaende +
+                '}';
+    }
 }
