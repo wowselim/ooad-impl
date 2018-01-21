@@ -11,14 +11,14 @@ public class Nutzerverwaltung {
         users.put("administrator", new Nutzer("administrator", "passwort"));
     }
 
-    public void loginPruefen(String user, String pw) {
-        Nutzer nutzer = users.get(user);
-        if (nutzer == null || !pw.equals(nutzer.getPassword())) {
+    public void loginPruefen(String name, String passwort) {
+        Nutzer nutzer = users.get(name);
+        if (nutzer == null || !passwort.equals(nutzer.getPasswort())) {
             throw new IllegalArgumentException("Unbekannter Nutzer oder falsches Passwort.");
         }
     }
 
-    public void nutzerAnlegen(String user, String pw) {
-        users.put(user, new Nutzer(user, pw));
+    public void nutzerAnlegen(String name, String passwort) {
+        users.put(name, new Nutzer(name, passwort));
     }
 }

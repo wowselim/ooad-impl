@@ -1,27 +1,27 @@
 package nutzer;
 
 public class Nutzer {
-    private final String username;
-    private final String password;
+    private final String name;
+    private final String passwort;
 
-    Nutzer(String username, String password) {
-        this.username = username;
-        this.password = password;
+    Nutzer(String name, String passwort) {
+        this.name = name;
+        this.passwort = passwort;
     }
 
-    String getUsername() {
-        return username;
+    String getName() {
+        return name;
     }
 
-    String getPassword() {
-        return password;
+    String getPasswort() {
+        return passwort;
     }
 
     @Override
     public String toString() {
         return "Nutzer{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                "name='" + name + '\'' +
+                ", passwort='" + passwort + '\'' +
                 '}';
     }
 }
